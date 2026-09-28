@@ -2,7 +2,7 @@ package com.project.back_end.controllers;
 import com.project.back_end.dto.Login;
 import com.project.back_end.models.Patient;
 import com.project.back_end.services.PatientService;
-import com.project.back_end.services.Service;
+import com.project.back_end.services.ValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -11,7 +11,7 @@ import java.util.Map;
 @RequestMapping("/patient")
 public class PatientController {
     @Autowired private PatientService patientService;
-    @Autowired private Service validationService;
+    @Autowired private ValidationService validationService;
     @PostMapping
     public ResponseEntity<Map<String, String>> createPatient(@RequestBody Patient patient) {
         int result = patientService.createPatient(patient);

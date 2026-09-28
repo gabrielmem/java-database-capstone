@@ -9,18 +9,22 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.Map;
 @Service
-public class Service {
-    @Autowired private TokenService tokenService;
-    @Autowired private AdminRepository adminRepository;
+public class ValidationService {
+    @Autowired
+    private TokenService tokenService;
+    @Autowired
+    private AdminRepository adminRepository;
     public ResponseEntity<Map<String, String>> validateToken(String token, String user) {
         Map<String, String> response = new HashMap<>();
         try {
             String identifier = tokenService.extractIdentifier(token);
-            if (identifier == null) { response.put("error", "Invalid token");
+            if (identifier == null) {
+                response.put("error", "Invalid token");
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
             }
             return ResponseEntity.ok(response);
-        } catch (Exception e) { response.put("error", "Token validation failed");
+        } catch (Exception e) {
+            response.put("error", "Token validation failed");
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
         }
     }
