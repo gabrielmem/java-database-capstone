@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Clinic - Select Your Role</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital CMS</h1>
+        </div>
+        <div class="main-content">
+            <h2>Select Your <span class="highlight">Role</span></h2>
+            <div class="buttons">
+                <button class="role-btn" onclick="openLogin('admin')">Admin</button>
+                <button class="role-btn" onclick="openLogin('doctor')">Doctor</button>
+                <button class="role-btn" onclick="openLogin('patient')">Patient</button>
+            </div>
+        </div>
+        <div class="footer">
+            <p>© 2026 Smart Clinic Management System</p>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeLogin()">&times;</span>
+            <h2 id="modalTitle">Login</h2>
+            <div id="loginForm">
+                <label id="usernameLabel">Username:</label>
+                <input type="text" id="username" placeholder="Enter username">
+                <label>Password:</label>
+                <input type="password" id="password" placeholder="Enter password">
+                <button class="login-btn" onclick="handleLogin()">Login</button>
+                <p id="errorMsg" class="error"></p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/assets/js/config.js"></script>
+    <script src="/assets/js/services/index.js"></script>
+</body>
+</html>

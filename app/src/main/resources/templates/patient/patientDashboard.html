@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Dashboard - Smart Clinic</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .dashboard-content { padding: 40px; }
+        .search-bar {
+            width: 100%; padding: 15px; font-size: 16px;
+            border: 2px solid #00796b; border-radius: 8px; margin-bottom: 20px;
+        }
+        .doctor-table {
+            width: 100%; background: white; border-radius: 8px;
+            overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .doctor-table th, .doctor-table td {
+            padding: 15px; text-align: left; border-bottom: 1px solid #eee;
+        }
+        .doctor-table th { background-color: #00796b; color: white; }
+        .book-btn {
+            padding: 8px 16px; background-color: #00796b; color: white;
+            border: none; border-radius: 4px; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital CMS - Patient Dashboard</h1>
+        </div>
+        <div class="dashboard-content">
+            <h2>Find a Doctor</h2>
+            <input type="text" class="search-bar" placeholder="Search doctor by name..." value="Dr. Emily Adams">
+            <table class="doctor-table">
+                <thead>
+                    <tr>
+                        <th>ID</th><th>Name</th><th>Specialty</th>
+                        <th>Email</th><th>Phone</th><th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorTableBody">
+                    <tr><td colspan="6">Loading doctors...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        async function loadDoctors() {
+            try {
+                const response = await fetch('/doctor');
+                const data = await response.json();
+                const tbody = document.getElementById('doctorTableBody');
+                tbody.innerHTML = '';
+                if (data.doctors && data.doctors.length > 0) {
+                    data.doctors.forEach(doc => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${doc.id}</td><td>${doc.name}</td>
+                            <td>${doc.specialty}</td><td>${doc.email}</td>
+                            <td>${doc.phone}</td>
+                            <td><button class="book-btn">Book Now</button></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6">No doctors found</td></tr>';
+                }
+            } catch (error) { console.error('Error loading doctors:', error); }
+        }
+        window.onload = loadDoctors;
+    </script>
+</body>
+</html>

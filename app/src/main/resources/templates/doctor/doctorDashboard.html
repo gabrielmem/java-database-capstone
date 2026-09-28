@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Dashboard - Smart Clinic</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .dashboard-content { padding: 40px; }
+        .patient-table {
+            width: 100%; background: white; border-radius: 8px;
+            overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .patient-table th, .patient-table td {
+            padding: 15px; text-align: left; border-bottom: 1px solid #eee;
+        }
+        .patient-table th { background-color: #00796b; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital CMS - Doctor Dashboard</h1>
+        </div>
+        <div class="dashboard-content">
+            <h2>My Patient Appointments</h2>
+            <table class="patient-table">
+                <thead>
+                    <tr>
+                        <th>Patient ID</th><th>Name</th><th>Phone</th>
+                        <th>Email</th><th>Appointment Time</th><th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="patientTableBody">
+                    <tr><td colspan="6">Loading appointments...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        const token = window.location.pathname.split('/').pop();
+        const appointments = [
+            { patientId: 1, name: 'Jane Doe', phone: '8881111111', email: 'jane.doe@example.com', time: '2025-04-15 09:00:00', status: 'Scheduled' },
+            { patientId: 2, name: 'John Smith', phone: '8882222222', email: 'john.smith@example.com', time: '2025-04-15 10:00:00', status: 'Scheduled' },
+            { patientId: 3, name: 'Emily Rose', phone: '8883333333', email: 'emily.rose@example.com', time: '2025-04-15 11:00:00', status: 'Scheduled' }
+        ];
+        window.onload = function() {
+            const tbody = document.getElementById('patientTableBody');
+            tbody.innerHTML = '';
+            appointments.forEach(apt => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${apt.patientId}</td>
+                    <td>${apt.name}</td>
+                    <td>${apt.phone}</td>
+                    <td>${apt.email}</td>
+                    <td>${apt.time}</td>
+                    <td>${apt.status}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Smart Clinic</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        .dashboard-content {
+            padding: 40px;
+        }
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        .add-doctor-btn {
+            padding: 12px 24px;
+            background-color: #00796b;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .doctor-table {
+            width: 100%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .doctor-table th, .doctor-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        .doctor-table th {
+            background-color: #00796b;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🏥 Hospital CMS - Admin Dashboard</h1>
+        </div>
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h2>Manage Doctors</h2>
+                <button class="add-doctor-btn" onclick="openAddDoctorModal()">+ Add Doctor</button>
+            </div>
+            <table class="doctor-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Specialty</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="doctorTableBody">
+                    <tr><td colspan="6">Loading doctors...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Add Doctor -->
+    <div id="addDoctorModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAddDoctorModal()">&times;</span>
+            <h2>Add New Doctor</h2>
+            <label>Name:</label>
+            <input type="text" id="docName" placeholder="Dr. John Doe">
+            <label>Specialty:</label>
+            <input type="text" id="docSpecialty" placeholder="Cardiologist">
+            <label>Email:</label>
+            <input type="email" id="docEmail" placeholder="dr.doe@example.com">
+            <label>Password:</label>
+            <input type="password" id="docPassword" placeholder="Password">
+            <label>Phone:</label>
+            <input type="text" id="docPhone" placeholder="5551234567">
+            <button class="login-btn" onclick="addDoctor()">Add Doctor</button>
+        </div>
+    </div>
+
+    <script>
+        const token = window.location.pathname.split('/').pop();
+        
+        async function loadDoctors() {
+            try {
+                const response = await fetch('/doctor');
+                const data = await response.json();
+                const tbody = document.getElementById('doctorTableBody');
+                tbody.innerHTML = '';
+                
+                if (data.doctors && data.doctors.length > 0) {
+                    data.doctors.forEach(doc => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${doc.id}</td>
+                            <td>${doc.name}</td>
+                            <td>${doc.specialty}</td>
+                            <td>${doc.email}</td>
+                            <td>${doc.phone}</td>
+                            <td><button>Edit</button> <button>Delete</button></td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6">No doctors found</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error loading doctors:', error);
+            }
+        }
+        
+        function openAddDoctorModal() {
+            document.getElementById('addDoctorModal').style.display = 'block';
+        }
+        
+        function closeAddDoctorModal() {
+            document.getElementById('addDoctorModal').style.display = 'none';
+        }
+        
+        function addDoctor() {
+            alert('Add Doctor functionality - would send POST to /doctor/' + token);
+            closeAddDoctorModal();
+        }
+        
+        window.onload = loadDoctors;
+    </script>
+</body>
+</html>
